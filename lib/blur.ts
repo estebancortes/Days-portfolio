@@ -1,0 +1,2 @@
+export const blurDataURL =
+  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nNDAnIGhlaWdodD0nNzAnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PHJlY3Qgd2lkdGg9JzQwJyBoZWlnaHQ9JzcwJyBmaWxsPScjZjNmMGVjJy8+PC9zdmc+";
