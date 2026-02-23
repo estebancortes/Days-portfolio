@@ -6,11 +6,11 @@ export const navigationItems: Record<
 > = {
   es: [
     { label: "Inicio", href: "#inicio" },
-    { label: "Historia", href: "#historia" },
+    { label: "Cómo empezó", href: "#historia" },
     { label: "Sobre mí", href: "#sobre-mi" },
     { label: "Portafolio", href: "#portafolio" },
-    { label: "Media Kit", href: "#media-kit" },
-    { label: "Tarifas", href: "#tarifas" },
+    { label: "Prueba", href: "#prueba" },
+    { label: "Stats & Audiencia", href: "#audiencia" },
     { label: "Contacto", href: "#contacto" }
   ],
   en: [
@@ -18,8 +18,8 @@ export const navigationItems: Record<
     { label: "Story", href: "#historia" },
     { label: "About", href: "#sobre-mi" },
     { label: "Portfolio", href: "#portafolio" },
-    { label: "Media Kit", href: "#media-kit" },
-    { label: "Rates", href: "#tarifas" },
+    { label: "Proof", href: "#prueba" },
+    { label: "Stats & Audience", href: "#audiencia" },
     { label: "Contact", href: "#contacto" }
   ]
 };

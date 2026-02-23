@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Download } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowRight, Download, Sparkles } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 import { AnimatedCounter } from "@/components/shared/animated-counter";
@@ -30,28 +30,32 @@ export function HeroSection({ locale }: HeroSectionProps) {
     () =>
       locale === "es"
         ? {
+            overline: "Daypaez · UGC Beauty Editorial",
             title: "UGC que se siente real. Y convierte.",
-            subtitle: "Cabello • Maquillaje • Skincare",
-            subtitle2: "Contenido nativo optimizado para TikTok y Reels.",
+            subtitle:
+              "Cabello • Maquillaje • Skincare | Transformaciones reales, contenido nativo para TikTok y Reels.",
             paragraph:
-              "En solo 30 días construí una audiencia real en 2026, generando más de 800,000 vistas en una semana con contenido orgánico estratégico.",
+              "Empecé hace 1 mes. Publico de 1 a 3 veces por día, con videos virales cada 1 o 2 días. En los últimos 7 días alcancé 826K vistas con crecimiento orgánico sostenido.",
             ctaPrimary: "Ver Portafolio",
-            ctaSecondary: "Descargar Media Kit",
-            coverAlt: "Banner principal de portafolio UGC beauty",
+            ctaSecondary: "Descargar Media Kit (PDF)",
+            coverAlt: "Banner editorial de Daypaez para portafolio UGC beauty",
             sampleAlt: "Muestra de contenido UGC",
-            creatorLabel: "UGC Beauty Creator · 2026"
+            note: "Voice-led UGC para marcas de belleza que quieren conversión sin perder naturalidad.",
+            statLabel: "Momentum orgánico en 30 días"
           }
         : {
+            overline: "Daypaez · UGC Beauty Editorial",
             title: "UGC that feels real. And converts.",
-            subtitle: "Hair • Makeup • Skincare",
-            subtitle2: "Native content optimized for TikTok and Reels.",
+            subtitle:
+              "Hair • Makeup • Skincare | Real transformations, native content for TikTok and Reels.",
             paragraph:
-              "In just 30 days, I built a real audience in 2026, generating over 800,000 views in one week with strategic organic content.",
+              "I started 1 month ago. I post 1 to 3 times per day, with viral hits every 1 to 2 days. In the last 7 days, I reached 826K views with sustained organic growth.",
             ctaPrimary: "View Portfolio",
-            ctaSecondary: "Download Media Kit",
-            coverAlt: "Main banner for UGC beauty portfolio",
+            ctaSecondary: "Download Media Kit (PDF)",
+            coverAlt: "Editorial banner for Daypaez UGC beauty portfolio",
             sampleAlt: "UGC content sample",
-            creatorLabel: "UGC Beauty Creator · 2026"
+            note: "Voice-led UGC for beauty brands that want conversion without losing authenticity.",
+            statLabel: "30-day organic momentum"
           },
     [locale]
   );
@@ -59,13 +63,13 @@ export function HeroSection({ locale }: HeroSectionProps) {
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveImage((prev) => (prev + 1) % heroImages.length);
-    }, 2800);
+    }, 2600);
 
     return () => clearInterval(timer);
   }, []);
 
   return (
-    <section id="inicio" className="relative overflow-hidden pt-28">
+    <section id="inicio" className="relative overflow-hidden pb-14 pt-28 md:pb-20">
       <div className="absolute inset-0 -z-20">
         <Image
           src="/assets/cover-main.jpg"
@@ -77,32 +81,31 @@ export function HeroSection({ locale }: HeroSectionProps) {
           blurDataURL={blurDataURL}
         />
       </div>
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background/85 via-background/95 to-background" />
+      <div className="grain-overlay absolute inset-0 -z-10 bg-gradient-to-b from-background/78 via-background/93 to-background" />
 
-      <div className="container pb-20">
-        <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+      <div className="container">
+        <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <motion.div
             initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-2xl"
           >
-            <p className="mb-4 inline-flex rounded-full border border-border bg-card/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-              {copy.creatorLabel}
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-primary/85">
+              {copy.overline}
             </p>
-            <h1 className="font-display text-4xl font-semibold leading-tight tracking-tight text-foreground md:text-6xl">
+            <div className="editorial-line mb-5" />
+            <h1 className="font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
               {copy.title}
             </h1>
-            <p className="mt-5 text-base font-medium text-muted-foreground md:text-xl">
+            <p className="mt-5 max-w-2xl text-base font-medium leading-relaxed text-muted-foreground md:text-lg">
               {copy.subtitle}
-              <br />
-              {copy.subtitle2}
             </p>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
               {copy.paragraph}
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap items-center gap-3">
               <Button asChild size="lg">
                 <a href="#portafolio">
                   {copy.ctaPrimary}
@@ -110,12 +113,17 @@ export function HeroSection({ locale }: HeroSectionProps) {
                 </a>
               </Button>
               <Button asChild variant="secondary" size="lg">
-                <a href="/assets/media-kit/media-kit.pdf" download>
+                <a href="/media-kit.pdf" target="_blank" rel="noreferrer noopener">
                   {copy.ctaSecondary}
                   <Download className="h-4 w-4" />
                 </a>
               </Button>
             </div>
+
+            <p className="mt-5 inline-flex items-center gap-2 text-sm text-muted-foreground">
+              <Sparkles className="h-4 w-4 text-primary" />
+              {copy.note}
+            </p>
           </motion.div>
 
           <motion.div
@@ -124,16 +132,15 @@ export function HeroSection({ locale }: HeroSectionProps) {
             transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className="mx-auto w-full max-w-sm"
           >
-            <div className="relative overflow-hidden rounded-[2.4rem] border border-border bg-card p-2.5 shadow-soft">
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/35 to-transparent" />
-              <div className="relative aspect-[9/18] overflow-hidden rounded-[2rem] bg-muted">
+            <div className="relative overflow-hidden rounded-[2.4rem] border border-border/90 bg-card/85 p-3 shadow-soft backdrop-blur-sm">
+              <div className="relative aspect-[9/18] overflow-hidden rounded-[2rem] border border-border/70 bg-muted">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={heroImages[activeImage]}
-                    initial={{ opacity: 0.25, scale: 1.03 }}
+                    initial={{ opacity: 0.2, scale: 1.05 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0.25, scale: 0.98 }}
-                    transition={{ duration: 0.6 }}
+                    exit={{ opacity: 0.2, scale: 0.95 }}
+                    transition={{ duration: 0.55 }}
                     className="absolute inset-0"
                   >
                     <Image
@@ -147,6 +154,11 @@ export function HeroSection({ locale }: HeroSectionProps) {
                   </motion.div>
                 </AnimatePresence>
               </div>
+              <div className="mt-3 rounded-2xl border border-border/70 bg-background/80 px-4 py-2">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary/85">
+                  {copy.statLabel}
+                </p>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -158,19 +170,13 @@ export function HeroSection({ locale }: HeroSectionProps) {
               initial={false}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
+              transition={{ duration: 0.45, delay: index * 0.06 }}
             >
-              <Card className="h-full bg-card/90 p-5">
+              <Card className="h-full border-border/70 bg-card/92 p-5 backdrop-blur-sm">
                 <p className="font-display text-3xl font-semibold tracking-tight text-foreground">
-                  <AnimatedCounter
-                    value={stat.value}
-                    prefix={stat.prefix}
-                    suffix={stat.suffix}
-                  />
+                  <AnimatedCounter value={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
                 </p>
-                <p className="mt-1 text-sm font-medium text-muted-foreground">
-                  {stat.label[locale]}
-                </p>
+                <p className="mt-1 text-sm font-medium text-muted-foreground">{stat.label[locale]}</p>
               </Card>
             </motion.div>
           ))}

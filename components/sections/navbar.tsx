@@ -19,17 +19,17 @@ export function Navbar({ locale, setLocale }: NavbarProps) {
 
   const ui = useMemo(
     () => ({
-      download: locale === "es" ? "Descargar Media Kit" : "Download Media Kit",
+      download: locale === "es" ? "Descargar Media Kit (PDF)" : "Download Media Kit (PDF)",
       openNav: locale === "es" ? "Abrir navegación" : "Open navigation"
     }),
     [locale]
   );
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/85 backdrop-blur-xl">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-border/50 bg-background/82 backdrop-blur-xl">
       <div className="container flex h-16 items-center justify-between">
         <a href="#inicio" className="font-display text-xl font-semibold tracking-tight">
-          UGC Beauty
+          Daypaez
         </a>
 
         <nav className="hidden items-center gap-6 md:flex">
@@ -45,7 +45,7 @@ export function Navbar({ locale, setLocale }: NavbarProps) {
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
-          <div className="inline-flex rounded-xl border border-border bg-card p-1">
+          <div className="inline-flex rounded-xl border border-border bg-card/80 p-1">
             {(["es", "en"] as const).map((lang) => (
               <button
                 key={lang}
@@ -64,30 +64,13 @@ export function Navbar({ locale, setLocale }: NavbarProps) {
           </div>
           <ThemeToggle />
           <Button asChild>
-            <a href="/assets/media-kit/media-kit.pdf" download>
+            <a href="/media-kit.pdf" target="_blank" rel="noreferrer noopener">
               {ui.download}
             </a>
           </Button>
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
-          <div className="inline-flex rounded-xl border border-border bg-card p-1">
-            {(["es", "en"] as const).map((lang) => (
-              <button
-                key={lang}
-                type="button"
-                onClick={() => setLocale(lang)}
-                className={cn(
-                  "rounded-lg px-2 py-1 text-xs font-semibold transition-colors",
-                  locale === lang
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                {localeLabel[lang]}
-              </button>
-            ))}
-          </div>
           <ThemeToggle />
           <Button
             variant="secondary"
@@ -103,6 +86,24 @@ export function Navbar({ locale, setLocale }: NavbarProps) {
       {open ? (
         <div className="border-t border-border bg-background md:hidden">
           <div className="container flex flex-col gap-3 py-4">
+            <div className="inline-flex w-fit rounded-xl border border-border bg-card p-1">
+              {(["es", "en"] as const).map((lang) => (
+                <button
+                  key={lang}
+                  type="button"
+                  onClick={() => setLocale(lang)}
+                  className={cn(
+                    "rounded-lg px-2.5 py-1 text-xs font-semibold transition-colors",
+                    locale === lang
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  {localeLabel[lang]}
+                </button>
+              ))}
+            </div>
+
             {navigationItems[locale].map((item) => (
               <a
                 key={item.href}
@@ -113,8 +114,9 @@ export function Navbar({ locale, setLocale }: NavbarProps) {
                 {item.label}
               </a>
             ))}
+
             <Button asChild className="mt-1">
-              <a href="/assets/media-kit/media-kit.pdf" download>
+              <a href="/media-kit.pdf" target="_blank" rel="noreferrer noopener">
                 {ui.download}
               </a>
             </Button>

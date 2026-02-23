@@ -7,18 +7,18 @@ import type { Locale } from "@/lib/i18n";
 
 const highlights: Record<Locale, readonly string[]> = {
   es: [
-    "Empezó hace exactamente un mes.",
-    "Publica contenido diario, entre 1 y 3 piezas por día.",
-    "Cada 1 o 2 días logra un video con alcance viral.",
-    "Su sistema se basa en hook fuerte, resultado visible y retención alta.",
-    "Su crecimiento orgánico en 2026 valida la calidad del contenido, no el presupuesto en ads."
+    "Comenzó hace 1 mes con una estrategia clara de publicación diaria.",
+    "Publica entre 1 y 3 piezas por día de forma consistente.",
+    "Logra tracción viral cada 1–2 días con hooks fuertes y cierre claro.",
+    "Optimiza cada video para retención: inicio rápido, prueba visual y ritmo dinámico.",
+    "Su crecimiento orgánico en 2026 demuestra calidad creativa, no dependencia de ads."
   ],
   en: [
-    "She started exactly one month ago.",
-    "She posts daily, between 1 and 3 pieces per day.",
-    "Every 1 to 2 days, one video reaches viral-level traction.",
-    "Her system is based on a strong hook, visible result, and high retention.",
-    "Her organic growth in 2026 validates content quality, not ad spend."
+    "Started 1 month ago with a clear daily publishing strategy.",
+    "Posts 1 to 3 pieces per day consistently.",
+    "Gets viral traction every 1–2 days with strong hooks and clear closings.",
+    "Optimizes every video for retention: quick start, visual proof, and dynamic pacing.",
+    "Her organic growth in 2026 proves creative quality over ad dependence."
   ]
 };
 
@@ -31,38 +31,38 @@ export function StorySection({ locale }: StorySectionProps) {
     locale === "es"
       ? {
           badge: "Cómo empezó",
-          title: "Estrategia clara. Ejecución diaria. Resultados medibles.",
+          title: "Momentum construido con consistencia, estructura y resultados visibles.",
           description:
-            "Todo comenzó hace un mes con una decisión simple: publicar contenido real todos los días y optimizar cada pieza para retención.",
-          p1: "En lugar de perseguir tendencias sin dirección, construyó un proceso: primer segundo con intención, demostración visual clara y edición pensada para sostener atención hasta el final. Ese enfoque convirtió contenido orgánico en crecimiento acelerado.",
-          p2: "Hoy, su portafolio demuestra que en 2026 todavía se puede crecer rápido en belleza cuando el contenido combina autenticidad, estructura y resultados que la audiencia puede validar por sí misma."
+            "En un mercado saturado, su diferenciador fue simple: contenido auténtico con dirección estratégica desde el primer día.",
+          p1: "El sistema arrancó con una regla: publicar todos los días y medir retención por segundos, no por intuición. Cada pieza debía abrir con hook claro, promesa visual y payoff real para sostener watch time.",
+          p2: "Ese enfoque convirtió un perfil nuevo en una cuenta con señales reales de conversión: preguntas técnicas, solicitudes de productos y conversaciones de compra en comentarios."
         }
       : {
           badge: "How it started",
-          title: "Clear strategy. Daily execution. Measurable results.",
+          title: "Momentum built with consistency, structure, and visible results.",
           description:
-            "It all started one month ago with one simple decision: publish real content every day and optimize each piece for retention.",
-          p1: "Instead of chasing trends without direction, she built a process: intention in the first second, clear visual proof, and editing designed to hold attention until the end. That approach turned organic content into accelerated growth.",
-          p2: "Today, her portfolio proves that in 2026 you can still grow fast in beauty when content combines authenticity, structure, and results the audience can validate on their own."
+            "In a saturated market, her edge was simple: authentic content with strategic direction from day one.",
+          p1: "The system started with one rule: publish every day and measure retention by seconds, not intuition. Every piece had to open with a clear hook, visual promise, and real payoff to hold watch time.",
+          p2: "That approach turned a new account into one with real conversion signals: technical questions, product requests, and purchase conversations in comments."
         };
 
   return (
-    <section id="historia" className="py-20 md:py-28">
+    <section id="historia" className="section-divider py-20 md:py-28">
       <div className="container">
         <Reveal>
           <SectionHeading badge={copy.badge} title={copy.title} description={copy.description} />
         </Reveal>
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className="mt-10 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
           <Reveal>
-            <Card className="h-full p-7 md:p-9">
+            <Card className="h-full border-border/75 bg-card/85 p-7 md:p-9">
               <p className="text-base leading-relaxed text-muted-foreground md:text-lg">{copy.p1}</p>
               <p className="mt-6 text-base leading-relaxed text-muted-foreground md:text-lg">{copy.p2}</p>
             </Card>
           </Reveal>
 
-          <Reveal delay={0.1}>
-            <Card className="h-full p-7 md:p-9">
+          <Reveal delay={0.08}>
+            <Card className="h-full border-border/75 bg-card/85 p-7 md:p-9">
               <ul className="space-y-4">
                 {highlights[locale].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm md:text-base">

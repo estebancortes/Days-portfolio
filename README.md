@@ -1,6 +1,8 @@
-# UGC Beauty Portfolio (Next.js 14)
+# Daypaez UGC Portfolio (Next.js 14)
 
-Portafolio premium en español para creadora UGC de belleza, construido con:
+Portafolio one-page de estilo editorial luxury para creadora UGC de belleza.
+
+## Stack
 
 - Next.js 14 (App Router)
 - TypeScript
@@ -10,6 +12,7 @@ Portafolio premium en español para creadora UGC de belleza, construido con:
 - next/image
 - lucide-react
 - next-themes
+- React PDF (`@react-pdf/renderer`)
 
 ## Requisitos
 
@@ -25,35 +28,65 @@ pnpm dev
 
 Abrir [http://localhost:3000](http://localhost:3000).
 
-## Build de producción
+## Build y lint
 
 ```bash
+pnpm lint
 pnpm build
-pnpm start
 ```
+
+## Generar Media Kit PDF
+
+```bash
+pnpm generate:media-kit
+```
+
+Este comando genera:
+
+- `/public/media-kit.pdf` (ruta principal para CTA)
+- `/public/assets/media-kit/media-kit.pdf` (compatibilidad)
 
 ## Deploy en Vercel
 
 1. Subir el repositorio a GitHub.
-2. Crear un nuevo proyecto en Vercel y conectar el repositorio.
-3. Framework: Next.js (autodetectado).
-4. Build command: `pnpm build`.
-5. Output: `.next` (por defecto).
-6. Deploy.
+2. Crear un proyecto en Vercel y conectar el repo.
+3. Framework: `Next.js`.
+4. Install command: `pnpm install`.
+5. Build command: `pnpm build`.
+6. Output directory: `.next`.
 
-## Estructura de imágenes
+## Arquitectura de secciones
 
-Ubicaciones esperadas dentro de `public/assets`:
+- Hero
+- Story (Cómo empezó)
+- About
+- Portfolio
+- Proof of Conversion
+- Stats & Audience
+- Contact
+- Footer
+
+## Estructura de imágenes esperada
 
 ```text
-/assets
+/public/assets
   /headshot
-    headshot-main.jpg
+    headshot-main.png
   /analytics
-    analytics-video-top.jpg
     analytics-7days.jpg
-    analytics-likes.jpg
     analytics-followers.jpg
+    analytics-total-likes.jpg
+    analytics-profile.jpg
+  /proof
+    proof.jpg
+    proof2.jpg
+    proof3.jpg
+    proof4.jpg
+  /hero
+    hero-01.jpg
+    hero-02.jpg
+    hero-03.jpg
+    hero-04.jpg
   /portfolio
     portfolio-transformacion-01.jpg
     portfolio-transformacion-02.jpg
@@ -63,29 +96,23 @@ Ubicaciones esperadas dentro de `public/assets`:
     portfolio-skincare-01.jpg
     portfolio-educativo-01.jpg
     portfolio-lifestyle-01.jpg
-  /hero
-    hero-01.jpg
-    hero-02.jpg
-    hero-03.jpg
-    hero-04.jpg
-  /media-kit
-    media-kit.pdf
   cover-main.jpg
+
+/public/media-kit.pdf
 ```
 
-## Dónde reemplazar screenshots y contenido
+## Dónde reemplazar screenshots
 
-- Hero rotatorio: `/public/assets/hero/*`
-- Fondo principal: `/public/assets/cover-main.jpg`
-- Headshot: `/public/assets/headshot/headshot-main.jpg`
+- Capturas de prueba de conversión: `/public/assets/proof/proof.jpg`, `proof2.jpg`, `proof3.jpg`, `proof4.jpg`
 - Analíticas: `/public/assets/analytics/*`
-- Portafolio: `/public/assets/portfolio/*`
-- PDF media kit: `/public/assets/media-kit/media-kit.pdf`
+- Hero rotatorio: `/public/assets/hero/*`
+- Headshot: `/public/assets/headshot/headshot-main.png`
 
 ## Datos editables
 
 - Navegación: `/data/navigation.ts`
-- Métricas hero: `/data/stats.ts`
-- Portafolio (cards + modal): `/data/portfolio.ts`
-- Tarifas: `/data/rates.ts`
+- Stats, audiencia, proof y analytics cards: `/data/stats.ts`
+- Portfolio (cards + modal + links): `/data/portfolio.ts`
 - Configuración general (email/url): `/lib/site.ts`
+- PDF Media Kit: `/media-kit/MediaKitDocument.tsx`
+- Script de generación PDF: `/scripts/generate-media-kit.ts`

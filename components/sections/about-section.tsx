@@ -9,17 +9,17 @@ import type { Locale } from "@/lib/i18n";
 
 const characteristics: Record<Locale, readonly string[]> = {
   es: [
-    "Transformaciones antes y después",
-    "Resultados reales en luz natural",
-    "Actualizaciones post uso (día 3, día 7)",
-    "Reseñas auténticas",
+    "Transformaciones antes y después con resultado visible",
+    "Tutoriales paso a paso orientados a guardados",
+    "Reseñas honestas con contexto de uso real",
+    "Actualizaciones post-uso (día 3 / día 7)",
     "Formato nativo optimizado para retención"
   ],
   en: [
-    "Before-and-after transformations",
-    "Real results in natural light",
-    "Post-use updates (day 3, day 7)",
-    "Authentic reviews",
+    "Before-and-after transformations with visible outcomes",
+    "Step-by-step tutorials optimized for saves",
+    "Honest reviews with real-use context",
+    "Post-use updates (day 3 / day 7)",
     "Native format optimized for retention"
   ]
 };
@@ -33,29 +33,29 @@ export function AboutSection({ locale }: AboutSectionProps) {
     locale === "es"
       ? {
           badge: "Sobre mí",
-          title: "Sobre mí",
-          alt: "Headshot de creadora UGC de belleza",
-          p1: "Soy creadora de contenido UGC especializada en cabello, maquillaje y skincare, con un enfoque fuerte en transformaciones reales y reseñas honestas.",
-          p2: "En menos de un mes construí una comunidad de más de 800 seguidores, generando más de 800,000 vistas en los últimos 7 días y superando las 35,000 interacciones totales.",
-          p3: "Mi video más visto supera las 400,000 vistas orgánicas.",
-          label: "Mi contenido se caracteriza por:",
-          close: "No creo anuncios tradicionales.",
-          close2: "Creo contenido que se siente real y genera confianza."
+          title: "Creadora UGC enfocada en transformación + credibilidad.",
+          alt: "Headshot principal de Daypaez",
+          p1: "Soy Daypaez, creadora UGC especializada en cabello, maquillaje y skincare con una voz latina y enfoque en resultados reales.",
+          p2: "En 30 días construí una comunidad de 817 seguidores, con +594 netos en 28 días y 826K vistas en los últimos 7 días.",
+          p3: "Mi audiencia es mayoría mujeres (~90%) entre 18 y 44 años, principalmente en United States, México y Colombia.",
+          label: "Mi contenido se diferencia por:",
+          close: "No produzco anuncios genéricos.",
+          close2: "Creo piezas nativas que generan confianza e intención de compra."
         }
       : {
-          badge: "About me",
-          title: "About me",
-          alt: "Headshot of UGC beauty creator",
-          p1: "I am a UGC content creator specialized in hair, makeup, and skincare, with a strong focus on real transformations and honest reviews.",
-          p2: "In less than a month, I built a community of 800+ followers, generated 800,000+ views in the last 7 days, and surpassed 35,000 total interactions.",
-          p3: "My top-performing video has over 400,000 organic views.",
-          label: "My content is defined by:",
-          close: "I don't create traditional ads.",
-          close2: "I create content that feels real and builds trust."
+          badge: "About",
+          title: "UGC creator focused on transformation and credibility.",
+          alt: "Main headshot of Daypaez",
+          p1: "I am Daypaez, a UGC creator specialized in hair, makeup, and skincare with a Latina voice and a real-results approach.",
+          p2: "In 30 days, I built a community of 817 followers, with +594 net in 28 days and 826K views in the last 7 days.",
+          p3: "My audience is mostly women (~90%) between 18 and 44, mainly in the United States, Mexico, and Colombia.",
+          label: "My content stands out for:",
+          close: "I do not produce generic ads.",
+          close2: "I build native pieces that drive trust and purchase intent."
         };
 
   return (
-    <section id="sobre-mi" className="bg-soft-radial py-20 md:py-28">
+    <section id="sobre-mi" className="section-divider py-20 md:py-28">
       <div className="container">
         <Reveal>
           <SectionHeading badge={copy.badge} title={copy.title} />
@@ -63,10 +63,10 @@ export function AboutSection({ locale }: AboutSectionProps) {
 
         <div className="mt-10 grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
           <Reveal>
-            <Card className="overflow-hidden p-2">
+            <Card className="overflow-hidden border-border/75 bg-card/88 p-2">
               <div className="relative aspect-[4/5] overflow-hidden rounded-xl">
                 <Image
-                  src="/assets/headshot/headshot-main.jpg"
+                  src="/assets/headshot/headshot-main.png"
                   alt={copy.alt}
                   fill
                   className="object-cover"
@@ -78,7 +78,7 @@ export function AboutSection({ locale }: AboutSectionProps) {
           </Reveal>
 
           <Reveal delay={0.08}>
-            <Card className="h-full p-7 md:p-9">
+            <Card className="h-full border-border/75 bg-card/88 p-7 md:p-9">
               <div className="space-y-5 text-sm leading-relaxed text-muted-foreground md:text-base">
                 <p>{copy.p1}</p>
                 <p>{copy.p2}</p>

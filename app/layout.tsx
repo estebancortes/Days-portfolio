@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Manrope, Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 
 import "./globals.css";
 
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { siteConfig } from "@/lib/site";
 
-const fontSans = Manrope({
+const fontSans = Inter({
   subsets: ["latin"],
   variable: "--font-sans"
 });
@@ -28,13 +28,12 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   keywords: [
-    "UGC",
-    "UGC beauty",
-    "portafolio UGC",
-    "creadora de contenido",
+    "UGC belleza",
+    "UGC creator latina",
     "TikTok UGC",
-    "Reels UGC",
-    "belleza"
+    "before after beauty",
+    "hair transformation",
+    "Daypaez"
   ],
   openGraph: {
     title: siteConfig.title,
@@ -48,7 +47,7 @@ export const metadata: Metadata = {
         url: "/assets/cover-main.jpg",
         width: 1200,
         height: 630,
-        alt: "Portafolio UGC Beauty"
+        alt: "Portafolio UGC editorial de Daypaez"
       }
     ]
   },

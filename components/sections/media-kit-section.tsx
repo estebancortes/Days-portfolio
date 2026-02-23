@@ -187,7 +187,7 @@ export function MediaKitSection({ locale }: MediaKitSectionProps) {
 
         <Reveal delay={0.12} className="mt-8">
           <Button asChild size="lg">
-            <a href="/assets/media-kit/media-kit.pdf" download>
+            <a href="/media-kit.pdf" target="_blank" rel="noreferrer noopener">
               {copy.download}
               <FileDown className="h-4 w-4" />
             </a>
