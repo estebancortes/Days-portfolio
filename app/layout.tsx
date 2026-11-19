@@ -1,20 +1,14 @@
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import localFont from "next/font/local";
+import { Instrument_Serif } from "next/font/google";
 
 import "./globals.css";
 
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { siteConfig } from "@/lib/site";
 
-const fontSans = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans"
-});
-
-const fontDisplay = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-display"
-});
+const fontDisplay = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-display", display: "swap" });
+const fontBody = localFont({ src: "../public/fonts/dmsans.ttf", variable: "--font-body", weight: "100 1000", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -28,11 +22,11 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   keywords: [
-    "UGC belleza",
-    "UGC creator latina",
-    "TikTok UGC",
-    "before after beauty",
-    "hair transformation",
+    "UGC creator Utah",
+    "Latina beauty creator",
+    "Salt Lake City content creator",
+    "haircare UGC",
+    "local business content creator",
     "Daypaez"
   ],
   openGraph: {
@@ -40,14 +34,14 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     url: siteConfig.url,
     siteName: siteConfig.name,
-    locale: "es_ES",
+    locale: "en_US",
     type: "website",
     images: [
       {
         url: "/assets/cover-main.jpg",
         width: 1200,
         height: 630,
-        alt: "Portafolio UGC editorial de Daypaez"
+        alt: "Daypaez, beauty and local business content creator"
       }
     ]
   },
@@ -65,8 +59,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
-      <body className={`${fontSans.variable} ${fontDisplay.variable} font-sans antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${fontDisplay.variable} ${fontBody.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>

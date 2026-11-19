@@ -1,8 +1,8 @@
 export const siteConfig = {
-  name: "Daypaez UGC Portfolio",
-  title: "UGC que se siente real. Y convierte.",
+  name: "DAYPAEZ",
+  title: "DAYPAEZ | Content creator for beauty brands and local business",
   description:
-    "Portafolio editorial de Daypaez (@daypaez30), creadora UGC de belleza con 826K vistas en 7 días, enfoque en transformaciones reales y contenido nativo para TikTok y Reels.",
+    "Daypaez is a Latina UGC creator in Salt Lake City creating authentic beauty and local business content.",
   url: "https://ugc-beauty-portfolio.vercel.app",
   email: "daypaezugc@gmail.com",
   tiktok: "https://www.tiktok.com/@daypaez30",
