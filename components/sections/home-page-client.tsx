@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -57,22 +57,33 @@ export function HomePageClient() {
       gsap.utils.toArray<HTMLElement>("[data-drop]").forEach(el => {
         gsap.from(el, { y: -110, rotation: -28, opacity: 0, duration: 1.1, ease: "back.out(1.6)", scrollTrigger: { trigger: el, start: "top 92%" } });
       });
+      // The highlighter follows the scroll: it draws across the contact headline as it rises and erases on the way back up.
+      gsap.fromTo(".contact-title", { "--draw": 0 }, { "--draw": 1, ease: "none", scrollTrigger: { trigger: ".contact-title", start: "top 88%", end: "top 52%", scrub: .6 } });
+    });
+    // Buttons and pills lean toward the cursor a little, then settle back with a small overshoot when it leaves.
+    media.add("(prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine)", () => {
+      const page = root.current;
+      if (!page) return;
+      const movers = new WeakMap<HTMLElement, [(v: number) => void, (v: number) => void]>();
+      let current: HTMLElement | null = null;
+      const release = (el: HTMLElement | null) => { const m = el && movers.get(el); if (m) { m[0](0); m[1](0); } };
+      const move = (e: PointerEvent) => {
+        const el = (e.target as Element).closest<HTMLElement>(".button, .pill, .nav-cta, .icon-button");
+        if (el !== current) { release(current); current = el; }
+        if (!el) return;
+        if (!movers.has(el)) movers.set(el, [gsap.quickTo(el, "--mx", { duration: .6, ease: "back.out(2)" }), gsap.quickTo(el, "--my", { duration: .6, ease: "back.out(2)" })]);
+        const [x, y] = movers.get(el)!;
+        const r = el.getBoundingClientRect();
+        x(((e.clientX - r.left) / r.width - .5) * Math.min(r.width * .18, 14));
+        y(((e.clientY - r.top) / r.height - .5) * 10);
+      };
+      const leave = () => { release(current); current = null; };
+      page.addEventListener("pointermove", move);
+      page.addEventListener("pointerleave", leave);
+      return () => { page.removeEventListener("pointermove", move); page.removeEventListener("pointerleave", leave); };
     });
     return () => media.revert();
   }, { scope: root });
-
-  // Draw the highlighter under the contact headline once it scrolls into view.
-  const title = useRef<HTMLHeadingElement>(null);
-  const [drawn, setDrawn] = useState(false);
-  useEffect(() => {
-    const el = title.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) { setDrawn(true); observer.disconnect(); }
-    }, { rootMargin: "0px 0px -20% 0px" });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <main ref={root} className="day">
@@ -135,7 +146,7 @@ export function HomePageClient() {
         <div className="panel contact-card">
           <div className="contact-copy" data-reveal>
             <p className="eyebrow">Get in touch</p>
-            <h2 id="contact-title" ref={title} className={drawn ? "contact-title is-drawn" : "contact-title"}><mark>Let’s create content</mark> that brings your brand’s story to life.</h2>
+            <h2 id="contact-title" className="contact-title"><mark>Let’s create content</mark> that brings your brand’s story to life.</h2>
             <a className="contact-email" href={"mailto:" + creator.email}>{creator.email} <ArrowUpRight size={22} /></a>
             <ContactPills />
           </div>

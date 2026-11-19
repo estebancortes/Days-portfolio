@@ -326,18 +326,17 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .contact-title { margin-top: 18px !important; font-size: clamp(2.8rem, 5vw, 5.25rem) !important; line-height: .98 !important; max-width: 15ch; }
 .contact-title mark {
   color: inherit; padding: 0 .06em;
-  background: linear-gradient(transparent 56%, var(--highlight) 56%, var(--highlight) 92%, transparent 92%) no-repeat 0 0 / 0% 100%;
-  -webkit-box-decoration-break: clone; box-decoration-break: clone;
-  transition: background-size 1.3s var(--ease) .15s;
+  /* --draw (0 to 1) is scrubbed by scroll. One continuous stroke across line breaks, so it fills line by line. */
+  background: linear-gradient(transparent 56%, var(--highlight) 56%, var(--highlight) 92%, transparent 92%) no-repeat 0 0 / calc(var(--draw, 1) * 100%) 100%;
 }
-.contact-title.is-drawn mark { background-size: 100% 100%; }
 .contact-email {
   display: inline-flex; align-items: center; gap: 8px; margin: 34px 0 26px;
   font-family: var(--font-display), Georgia, serif; font-size: clamp(1.7rem, 2.7vw, 2.6rem); line-height: 1.1;
   text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .16em;
   overflow-wrap: anywhere;
 }
-.contact-email:hover { color: var(--accent); }
+.contact-email { transition: color .25s, text-underline-offset .35s var(--ease); }
+.contact-email:hover { color: var(--accent); text-underline-offset: .26em; }
 .contact-media { position: relative; min-height: 480px; overflow: hidden; border-radius: var(--radius-sm); box-shadow: var(--shadow-md); }
 .contact-media img { object-fit: cover; object-position: 50% 35%; }
 .footer { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 40px 12px 14px; font-size: 13px; color: var(--ink-soft); }
@@ -449,12 +448,44 @@ a, button { -webkit-tap-highlight-color: transparent; }
   .hero-role { margin-bottom: 14px; font-size: .95rem; }
 }
 
+/* ---------- Micro interactions ---------- */
+/* Magnetic lean on fine pointers: --mx and --my are set by GSAP, separate from the hover lift. */
+.button, .pill, .nav-cta, .icon-button { translate: calc(var(--mx, 0) * 1px) calc(var(--my, 0) * 1px); }
+.button svg, .icon-button svg, .pill-icon, .contact-email svg { transition: transform .45s var(--ease); }
+.nav-links a:not(.nav-cta) { position: relative; }
+.nav-links a:not(.nav-cta)::after {
+  content: ""; position: absolute; left: 6px; right: 6px; bottom: 6px; height: 1.5px; background: currentColor;
+  transform: scaleX(0); transform-origin: right; transition: transform .45s var(--ease);
+}
+.filter[aria-pressed=true] { animation: pop .45s var(--ease); }
+@keyframes pop { 0% { transform: scale(.9); } 60% { transform: scale(1.06); } 100% { transform: scale(1); } }
+.logo-tile { transition: transform .45s var(--ease), box-shadow .45s var(--ease); }
+.film-play::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1.5px solid rgba(255, 248, 236, .9); opacity: 0; pointer-events: none; }
+@keyframes ripple { from { transform: scale(1); opacity: .9; } to { transform: scale(1.75); opacity: 0; } }
+@media (hover: hover) {
+  .button:hover .lucide-arrow-right, .icon-button:hover .lucide-arrow-right { transform: translateX(4px); }
+  .icon-button:hover .lucide-arrow-left, .button:hover .lucide-gallery-horizontal-end { transform: translateX(-4px); }
+  .button:hover .lucide-layout-grid { transform: rotate(90deg); }
+  .pill:hover .pill-icon { transform: rotate(-14deg) scale(1.08); }
+  .contact-email:hover svg { transform: translate(4px, -4px); }
+  .nav-links a:not(.nav-cta):hover::after { transform: scaleX(1); transform-origin: left; }
+  .logo-tile:hover { transform: translateY(-5px) rotate(-1.5deg); box-shadow: var(--shadow-md); }
+  .film-cover:hover .film-play::after { animation: ripple 1.3s var(--ease) infinite; }
+}
+@media (hover: none) {
+  .pill:active .pill-icon { transform: rotate(-14deg) scale(1.08); }
+  .button:active .lucide-arrow-right { transform: translateX(4px); }
+  .film-cover:active .film-play::after { animation: ripple .8s var(--ease); }
+}
+
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .marquee { -webkit-mask-image: none; mask-image: none; justify-content: center; }
   .marquee-row { animation: none; flex-wrap: wrap; justify-content: center; padding: 14px 0; }
   .marquee-row[aria-hidden],   .receiver { animation: none; }
-  .contact-title mark { background-size: 100% 100%; transition: none; }
+  .contact-title { --draw: 1 !important; }
+  .filter[aria-pressed=true], .film-play::after { animation: none !important; }
+  .button svg, .icon-button svg, .pill-icon, .contact-email svg, .logo-tile, .nav-links a::after { transition: none; }
   .film-cover::before, .film-play, .button, .pill, .icon-button { transition: none; }
 }

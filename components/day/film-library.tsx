@@ -14,16 +14,14 @@ gsap.registerPlugin(ScrollTrigger);
 // Instagram blocks playback for this archived GRWM.
 const playableFilms = films.filter(([id]) => id !== "Dfned_mS3at");
 const covers = new Set(availableCovers);
-const groups = ["Product", "Color", "Tutorial", "Transformation", "Utah", "Original films"];
+const groups = ["UGC", "Color", "Tutorial", "Transformation", "Utah", "Original films"];
 const filters = [
-  { label: "Featured", match: null },
+  { label: "UGC", match: ["UGC"] },
   { label: "Hair color", match: ["Color", "Transformation"] },
-  { label: "Product", match: ["Product"] },
   { label: "Tutorial", match: ["Tutorial"] },
   { label: "Utah", match: ["Utah"] },
   { label: "Original films", match: ["Original films"] }
 ] as const;
-const FEATURED = 16;
 type Film = typeof films[number];
 
 // Only show play counts that help the pitch; small numbers on brand posts undersell the work.
@@ -61,7 +59,7 @@ export function FilmLibrary() {
   }, { dependencies: [filter, expanded], scope: library, revertOnUpdate: true });
 
   const { match } = filters[filter];
-  const railFilms = match ? playableFilms.filter(f => (match as readonly string[]).includes(f[2])) : playableFilms.slice(0, FEATURED);
+  const railFilms = playableFilms.filter(f => (match as readonly string[]).includes(f[2]));
 
   function reset() {
     setActive(null);
