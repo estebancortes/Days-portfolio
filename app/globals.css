@@ -338,7 +338,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .contact-email { transition: color .25s, text-underline-offset .35s var(--ease); }
 .contact-email:hover { color: var(--accent); text-underline-offset: .26em; }
 .contact-media { position: relative; min-height: 480px; overflow: hidden; border-radius: var(--radius-sm); box-shadow: var(--shadow-md); }
-.contact-media img { object-fit: cover; object-position: 50% 35%; }
+.contact-media img { object-fit: cover; object-position: 50% 55%; }
 .footer { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 40px 12px 14px; font-size: 13px; color: var(--ink-soft); }
 .footer .wordmark { font-size: 22px; color: var(--ink); }
 

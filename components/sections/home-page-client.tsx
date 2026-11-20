@@ -109,7 +109,7 @@ export function HomePageClient() {
 
       <section id="about" className="panel about" aria-labelledby="about-title">
         <div className="about-media">
-          <Image src="/assets/headshot/headshot-main.jpg" alt="Dayana with long copper hair against a winter sky" fill sizes="(max-width: 760px) 100vw, 46vw" className="about-photo" />
+          <Image src="/assets/films/utah-portrait.jpg" alt="Dayana among the red rocks of southern Utah" fill sizes="(max-width: 760px) 100vw, 46vw" className="about-photo" />
           <dl className="stat-card">
             <div><dt>Followers</dt><dd>{creator.combinedFollowers}</dd></div>
             <div><dt>Views</dt><dd>Millions</dd></div>
@@ -151,7 +151,7 @@ export function HomePageClient() {
             <ContactPills />
           </div>
           <div className="contact-media">
-            <Image src="/assets/films/utah-portrait.jpg" alt="Dayana among the red rocks of southern Utah" fill sizes="(max-width: 760px) 90vw, 32vw" />
+            <Image src="/assets/headshot/contact-portrait.jpg" alt="Dayana in a white shirt in front of a sandstone arch in Arches National Park" fill sizes="(max-width: 760px) 90vw, 32vw" />
           </div>
         </div>
         <footer className="footer">
