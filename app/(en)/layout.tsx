@@ -1,14 +1,10 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import { Instrument_Serif } from "next/font/google";
-
-import "./globals.css";
+import "../globals.css";
 
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { siteConfig } from "@/lib/site";
 
-const fontDisplay = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-display", display: "swap" });
-const fontBody = localFont({ src: "../public/fonts/dmsans.ttf", variable: "--font-body", weight: "100 1000", display: "swap" });
+import { fontBody, fontDisplay } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -21,6 +17,7 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`
   },
   description: siteConfig.description,
+  alternates: { canonical: "/", languages: { en: "/", es: "/es" } },
   keywords: [
     "UGC creator Utah",
     "Latina beauty creator",

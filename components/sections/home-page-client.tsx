@@ -10,6 +10,7 @@ import { FilmLibrary } from "@/components/day/film-library";
 import { BrandStrip } from "@/components/day/brand-strip";
 import { InstagramIcon, TikTokIcon } from "@/components/day/icons";
 import { creator } from "@/data/creator";
+import { copy, type Lang } from "@/data/copy";
 
 gsap.registerPlugin(ScrollTrigger);
 // Phones hide and show the address bar while scrolling; don't recalculate every trigger when that happens.
@@ -28,15 +29,11 @@ function ContactPills({ email = false }: { email?: boolean }) {
 }
 
 // Written for the brands reading the page. Same arc as a strong UGC pitch: what she does for a brand,
-// why she is credible, how every video is made. Facts only from the handoff and owner-supplied lists.
-const points = [
-  { icon: HeartHandshake, text: "I help beauty and haircare brands show exactly what their products do, in videos that feel like a recommendation from a friend, the kind viewers believe." },
-  { icon: Palette, text: "I’m a Colombian UGC creator filming in English and Spanish, and copper hair is my specialty: I’ve colored my own curly hair for more than ten years. I’ve created for L’Oréal Paris, YSL Beauty, SHEGLAM, TYMO, Wavytalk and more, across hair color, styling tools, makeup, skincare and eyewear." },
-  { icon: Clapperboard, text: "Every video tells the whole story: the starting point, how the product goes on and the result in natural light. It feels native on TikTok and Instagram, and it’s ready to run as a paid ad." },
-  { icon: MapPin, text: "Based in Salt Lake City, I also film first looks at Utah restaurants, spas and salons." }
-];
+// why she is credible, how every video is made. Text lives in data/copy.ts in both languages.
+const pointIcons = [HeartHandshake, Palette, Clapperboard, MapPin];
 
-export function HomePageClient() {
+export function HomePageClient({ lang = "en" }: { lang?: Lang }) {
+  const t = copy[lang];
   const root = useRef<HTMLElement>(null);
 
   useGSAP(() => {
@@ -87,47 +84,49 @@ export function HomePageClient() {
 
   return (
     <main ref={root} className="day">
-      <nav className="nav" aria-label="Main navigation">
+      <nav className="nav" aria-label={t.nav.aria}>
         <a className="wordmark nav-mark" href="#top">{creator.name}</a>
         <div className="nav-links">
-          <a href="#work">Portfolio</a>
-          <a href="#about">About</a>
-          <a className="nav-cta" href="#contact">Work with me</a>
+          <a href="#work">{t.nav.portfolio}</a>
+          <a href="#about">{t.nav.about}</a>
+          <a className="nav-lang" href={t.switchTo.href} hrefLang={lang === "en" ? "es" : "en"} aria-label={t.switchTo.aria}>{t.switchTo.label}</a>
+          <a className="nav-cta" href="#contact">{t.nav.cta}</a>
         </div>
       </nav>
 
       <header id="top" className="panel hero">
         <div className="hero-media">
-          <video muted autoPlay loop playsInline disablePictureInPicture disableRemotePlayback preload="metadata" poster="/assets/films/hero-poster.jpg" src="/assets/films/hero.mp4" aria-label="Dayana showing her copper hair by a lake in autumn" />
+          <video muted autoPlay loop playsInline disablePictureInPicture disableRemotePlayback preload="metadata" poster="/assets/films/hero-poster.jpg" src="/assets/films/hero.mp4" aria-label={t.heroVideo} />
         </div>
         <div className="hero-copy dotted">
           <h1 className="wordmark hero-name">{creator.name}</h1>
-          <p className="hero-role">{creator.role}</p>
+          <p className="hero-role">{t.role}</p>
           <ContactPills email />
         </div>
       </header>
 
       <section id="about" className="panel about" aria-labelledby="about-title">
         <div className="about-media">
-          <Image src="/assets/films/utah-portrait.jpg" alt="Dayana among the red rocks of southern Utah" fill sizes="(max-width: 760px) 100vw, 46vw" className="about-photo" />
+          <Image src="/assets/films/utah-portrait.jpg" alt={t.about.photo} fill quality={90} sizes="(max-width: 760px) 100vw, 46vw" className="about-photo" />
           <dl className="stat-card">
-            <div><dt>Followers</dt><dd>{creator.combinedFollowers}</dd></div>
-            <div><dt>Views</dt><dd>Millions</dd></div>
-            <div><dt>Years in copper</dt><dd>10+</dd></div>
+            <div><dt>{t.about.stats.followers}</dt><dd>{creator.combinedFollowers}</dd></div>
+            <div><dt>{t.about.stats.views}</dt><dd>{t.about.stats.viewsValue}</dd></div>
+            <div><dt>{t.about.stats.years}</dt><dd>10+</dd></div>
           </dl>
         </div>
         <div className="about-copy" data-reveal>
-          <p className="eyebrow">About me</p>
-          <h2 id="about-title">Hi, brands!</h2>
-          <p className="lede">Let people see your product work before they ever buy it.</p>
+          <p className="eyebrow">{t.about.eyebrow}</p>
+          <h2 id="about-title">{t.about.title}</h2>
+          <p className="lede">{t.about.lede}</p>
           <ul className="points">
-            {points.map(({ icon: Icon, text }) => (
-              <li key={text}><span className="point-icon"><Icon size={16} /></span><p>{text}</p></li>
-            ))}
+            {t.about.points.map((text, i) => {
+              const Icon = pointIcons[i];
+              return <li key={i}><span className="point-icon"><Icon size={16} /></span><p>{text}</p></li>;
+            })}
           </ul>
           <div className="about-foot">
             <p className="signature">Dayana</p>
-            <a className="button" href="#contact">Let’s work together <ArrowRight size={16} /></a>
+            <a className="button" href="#contact">{t.about.cta} <ArrowRight size={16} /></a>
           </div>
         </div>
         <span className="clip" aria-hidden="true">
@@ -135,8 +134,8 @@ export function HomePageClient() {
         </span>
       </section>
 
-      <BrandStrip />
-      <FilmLibrary />
+      <BrandStrip lang={lang} />
+      <FilmLibrary lang={lang} />
 
       <section id="contact" className="contact" aria-labelledby="contact-title">
         <div className="receiver" aria-hidden="true">
@@ -145,13 +144,13 @@ export function HomePageClient() {
         </div>
         <div className="panel contact-card">
           <div className="contact-copy" data-reveal>
-            <p className="eyebrow">Get in touch</p>
-            <h2 id="contact-title" className="contact-title"><mark>Let’s create content</mark> that brings your brand’s story to life.</h2>
+            <p className="eyebrow">{t.contact.eyebrow}</p>
+            <h2 id="contact-title" className="contact-title"><mark>{t.contact.mark}</mark>{t.contact.rest}</h2>
             <a className="contact-email" href={"mailto:" + creator.email}>{creator.email} <ArrowUpRight size={22} /></a>
             <ContactPills />
           </div>
           <div className="contact-media">
-            <Image src="/assets/headshot/contact-portrait.jpg" alt="Dayana in a white shirt in front of a sandstone arch in Arches National Park" fill sizes="(max-width: 760px) 90vw, 32vw" />
+            <Image src="/assets/headshot/contact-portrait.jpg" alt={t.contact.photo} fill quality={90} sizes="(max-width: 760px) 92vw, (max-width: 1080px) 520px, 36vw" />
           </div>
         </div>
         <footer className="footer">

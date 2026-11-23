@@ -8,8 +8,8 @@ export const creator = {
   social: [
     {
       platform: "Instagram",
-      handle: "@daypaez.ugc",
-      href: "https://www.instagram.com/daypaez.ugc"
+      handle: "@daypae.z",
+      href: "https://www.instagram.com/daypae.z"
     },
     {
       platform: "TikTok",

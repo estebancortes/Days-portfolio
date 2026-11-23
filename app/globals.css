@@ -138,6 +138,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .nav-links a:not(.nav-cta):hover { color: var(--accent); }
 .nav-cta { display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; background: var(--ink); color: var(--cream); transition: background-color .25s; }
 .nav-cta:hover { background: var(--copper); }
+.nav-lang {
+  display: inline-grid; place-items: center; min-width: 44px; min-height: 44px; padding: 0 10px;
+  border: 1px solid var(--line); border-radius: 999px; font-size: 13px; font-weight: 600; letter-spacing: .06em;
+  transition: background-color .25s, color .25s, border-color .25s;
+}
+.nav-lang:hover { background: var(--ink); border-color: var(--ink); color: var(--cream); }
 
 /* ---------- Hero ---------- */
 .hero {
@@ -337,8 +343,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 .contact-email { transition: color .25s, text-underline-offset .35s var(--ease); }
 .contact-email:hover { color: var(--accent); text-underline-offset: .26em; }
-.contact-media { position: relative; min-height: 480px; overflow: hidden; border-radius: var(--radius-sm); box-shadow: var(--shadow-md); }
-.contact-media img { object-fit: cover; object-position: 50% 55%; }
+/* Portrait frame so an iPhone photo shows whole instead of being cut into a short box. */
+.contact-media { position: relative; align-self: center; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius-sm); box-shadow: var(--shadow-md); }
+.contact-media img { object-fit: cover; object-position: 50% 60%; }
 .footer { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 40px 12px 14px; font-size: 13px; color: var(--ink-soft); }
 .footer .wordmark { font-size: 22px; color: var(--ink); }
 
@@ -359,7 +366,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
   .about-photo { border-radius: var(--radius) var(--radius) 0 0; }
   .about-copy { padding: clamp(56px, 8vw, 96px) clamp(28px, 6vw, 72px) clamp(40px, 6vw, 72px); }
   .contact-card { grid-template-columns: 1fr; }
-  .contact-media { min-height: 0; aspect-ratio: 16 / 10; }
+  .contact-media { width: 100%; max-width: 520px; }
 }
 
 /* ---------- Phone ---------- */
@@ -371,6 +378,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
   .nav-links { font-size: 13px; gap: 4px; }
   .nav-links a[href="#about"] { display: none; }
   .nav-cta { min-height: 40px; padding: 0 16px; }
+  .nav-lang { min-width: 40px; min-height: 40px; padding: 0 8px; font-size: 12px; }
 
   /* Phone hero: one full-screen card. The video fills it; name, line and links sit over a wine fade at the bottom. */
   .hero { display: block; height: calc(100svh - 74px); min-height: 560px; max-height: 900px; overflow: hidden; border-radius: var(--radius); }
@@ -438,6 +446,11 @@ a, button { -webkit-tap-highlight-color: transparent; }
 
 /* Small and short phones: keep the hero links on two rows and the name clear of her face. */
 @media (max-width: 360px) {
+  .nav { padding-left: 14px; padding-right: 6px; }
+  .nav-mark { font-size: 20px; }
+  .nav-links { gap: 2px; font-size: 12px; }
+  .nav-cta { padding: 0 12px; }
+  .nav-lang { min-width: 36px; }
   .hero-copy { padding: 0 12px 20px; }
   .hero .pills { gap: 6px; }
   .hero .pill { gap: 7px; min-height: 38px; padding: 4px 12px 4px 4px; font-size: 12px; }

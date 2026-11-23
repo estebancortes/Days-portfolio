@@ -8,6 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowLeft, ArrowRight, GalleryHorizontalEnd, LayoutGrid, Play } from "lucide-react";
 import { films } from "@/data/work-films";
 import availableCovers from "@/data/film-covers.json";
+import { copy, esSubjects, esTitles, type Lang } from "@/data/copy";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,13 +16,7 @@ gsap.registerPlugin(ScrollTrigger);
 const playableFilms = films.filter(([id]) => id !== "Dfned_mS3at");
 const covers = new Set(availableCovers);
 const groups = ["UGC", "Color", "Tutorial", "Transformation", "Utah", "Original films"];
-const filters = [
-  { label: "UGC", match: ["UGC"] },
-  { label: "Hair color", match: ["Color", "Transformation"] },
-  { label: "Tutorial", match: ["Tutorial"] },
-  { label: "Utah", match: ["Utah"] },
-  { label: "Original films", match: ["Original films"] }
-] as const;
+const filters = [["UGC"], ["Color", "Transformation"], ["Tutorial"], ["Utah"], ["Original films"]] as const;
 type Film = typeof films[number];
 
 // Only show play counts that help the pitch; small numbers on brand posts undersell the work.
@@ -30,7 +25,9 @@ const isOriginal = (film: Film) => film[2] === "Original films";
 const posterFor = (film: Film) => isOriginal(film) ? `/assets/films/${film[0]}.jpg` : covers.has(film[0]) ? `/assets/film-covers/${film[0]}.jpg` : undefined;
 const sourceFor = (film: Film) => isOriginal(film) ? `/assets/films/${film[0]}.mp4` : `/assets/reels/${film[0]}.mp4`;
 
-export function FilmLibrary() {
+export function FilmLibrary({ lang = "en" }: { lang?: Lang }) {
+  const t = copy[lang].work;
+  const es = lang === "es";
   const [filter, setFilter] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const [active, setActive] = useState<string | null>(null);
@@ -58,8 +55,7 @@ export function FilmLibrary() {
     return () => media.revert();
   }, { dependencies: [filter, expanded], scope: library, revertOnUpdate: true });
 
-  const { match } = filters[filter];
-  const railFilms = playableFilms.filter(f => (match as readonly string[]).includes(f[2]));
+  const railFilms = playableFilms.filter(f => (filters[filter] as readonly string[]).includes(f[2]));
 
   function reset() {
     setActive(null);
@@ -83,7 +79,9 @@ export function FilmLibrary() {
   }
 
   function renderFilm(film: Film) {
-    const [id, title, , subject, views] = film;
+    const [id, enTitle, , enSubject, views] = film;
+    const title = es ? esTitles[enTitle] ?? enTitle : enTitle;
+    const subject = es ? esSubjects[enSubject] ?? enSubject : enSubject;
     const poster = posterFor(film);
     const playing = active === id && !failed;
     return (
@@ -95,17 +93,17 @@ export function FilmLibrary() {
             <button
               className="film-cover"
               onClick={() => { setActive(id); setFailed(false); }}
-              aria-label={`Play ${title}, ${subject}`}
+              aria-label={t.play(title, subject)}
               style={poster ? { backgroundImage: `url("${poster}")` } : undefined}
             >
-              {showViews(views) && <span className="film-views">{views} views</span>}
+              {showViews(views) && <span className="film-views">{t.views(views!)}</span>}
               <span className="film-play"><Play size={18} fill="currentColor" /></span>
             </button>
           )}
         </div>
         <h3>{title}</h3>
         <p className="film-subject">{subject}</p>
-        {failed && active === id && <small role="status">Playback unavailable. Tap to retry.</small>}
+        {failed && active === id && <small role="status">{t.failed}</small>}
       </article>
     );
   }
@@ -114,13 +112,13 @@ export function FilmLibrary() {
     <section id="work" className="work" aria-labelledby="portfolio-title">
       <Image className="pocket" src="/assets/objects/studio-pocket.png" alt="" width={700} height={700} sizes="(max-width: 760px) 150px, 340px" data-float="8" />
       <div className="section-head" data-reveal>
-        <p className="eyebrow">Selected work</p>
-        <h2 id="portfolio-title">Portfolio</h2>
+        <p className="eyebrow">{t.eyebrow}</p>
+        <h2 id="portfolio-title">{t.title}</h2>
       </div>
 
-      <div className="filters" role="group" aria-label="Filter films by subject">
-        {filters.map((f, i) => (
-          <button key={f.label} type="button" className="filter" aria-pressed={!expanded && filter === i} onClick={() => choose(i)}>{f.label}</button>
+      <div className="filters" role="group" aria-label={t.filtersAria}>
+        {t.filters.map((label, i) => (
+          <button key={label} type="button" className="filter" aria-pressed={!expanded && filter === i} onClick={() => choose(i)}>{label}</button>
         ))}
       </div>
 
@@ -129,8 +127,8 @@ export function FilmLibrary() {
           groups.map(group => {
             const entries = playableFilms.filter(f => f[2] === group);
             return entries.length > 0 && (
-              <section className="film-group" key={group} aria-label={group}>
-                <h3 className="group-title">{group} <span>{entries.length}</span></h3>
+              <section className="film-group" key={group} aria-label={t.groups[group] ?? group}>
+                <h3 className="group-title">{t.groups[group] ?? group} <span>{entries.length}</span></h3>
                 <div className="film-grid">{entries.map(renderFilm)}</div>
               </section>
             );
@@ -140,7 +138,7 @@ export function FilmLibrary() {
             <div
               ref={rail}
               className="film-rail"
-              aria-label="Portfolio films"
+              aria-label={t.railAria}
               tabIndex={0}
               onScroll={e => {
                 const wrapper = e.currentTarget.parentElement;
@@ -174,11 +172,11 @@ export function FilmLibrary() {
       </div>
 
       <div className="rail-controls">
-        {!expanded && <button type="button" className="icon-button" aria-label="Previous films" onClick={() => scroll(-1)}><ArrowLeft size={18} /></button>}
+        {!expanded && <button type="button" className="icon-button" aria-label={t.prev} onClick={() => scroll(-1)}><ArrowLeft size={18} /></button>}
         <button type="button" className="button" aria-controls="film-library" aria-expanded={expanded} onClick={toggleAll}>
-          {expanded ? <><GalleryHorizontalEnd size={16} /> Back to carousel</> : <><LayoutGrid size={16} /> View all {playableFilms.length} films</>}
+          {expanded ? <><GalleryHorizontalEnd size={16} /> {t.back}</> : <><LayoutGrid size={16} /> {t.viewAll(playableFilms.length)}</>}
         </button>
-        {!expanded && <button type="button" className="icon-button" aria-label="Next films" onClick={() => scroll(1)}><ArrowRight size={18} /></button>}
+        {!expanded && <button type="button" className="icon-button" aria-label={t.next} onClick={() => scroll(1)}><ArrowRight size={18} /></button>}
       </div>
     </section>
   );
