@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { siteConfig } from "@/lib/site";
 
 import { fontBody, fontDisplay } from "@/lib/fonts";
+import { Analytics } from "@vercel/analytics/next";
 
 // Spanish version of the site, served at /es. Its own root layout so the page is <html lang="es">.
 const title = "DAYPAEZ | Creadora de contenido para marcas de belleza y negocios locales";
@@ -35,6 +36,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
